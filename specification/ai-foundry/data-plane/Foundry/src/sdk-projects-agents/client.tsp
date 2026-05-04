@@ -184,6 +184,13 @@ namespace Azure.AI.Projects {
     "ToolOptions",
     "csharp"
   );
+  @@clientName(AgentEndpointConfig, "AgentEndpointConfiguration");
+  @@clientName(TelemetryEndpointAuth, "TelemetryEndpointAuthentication");
+  @@clientName(TelemetryEndpointAuth, "TelemetryEndpointAuthentication");
+  @@clientName(TelemetryEndpointAuthType,
+    "TelemetryEndpointAuthenticationKind"
+  );
+  @@clientName(TelemetryDataKind, "ExportedDataTypes");
   // --------------------------------------------------------------------------------
   // Usage / Public accessibility overrides
   // --------------------------------------------------------------------------------
