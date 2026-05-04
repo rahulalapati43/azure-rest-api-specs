@@ -137,6 +137,11 @@ model RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
 
   @doc("Rubric criteria — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual criterion with rubric_id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same rubric structure.")
   rubric_criteria: RubricCriterion[];
+
+  @doc("Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any criterion scored 1 → fail' rule still applies regardless of this threshold.")
+  @minValue(0.0)
+  @maxValue(1.0)
+  pass_threshold?: float32 = 0.5;
 }
 
 // ============================================================================
@@ -240,6 +245,12 @@ model EvaluatorGenerationInputs {
 
   @doc("The evaluator name to create or update. If an evaluator with this name already exists, the service retrieves the latest version's criteria as context for improvement.")
   evaluator_name: string;
+
+  @doc("Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. Distinct from the job-level `name` field above (which is the display name for the generation job, not the evaluator).")
+  display_name?: string;
+
+  @doc("Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `display_name`.")
+  description?: string;
 }
 
 @doc("Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state.")
